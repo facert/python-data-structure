@@ -65,29 +65,53 @@ class LList(object):
             yield p.elem
             p = p.next
 
-    # def insert(self, i, elem):
-    #     if i < 0:
-    #         raise LinkedListUnderflow('in insert')
-    #     p = self._head
-    #     q = LNode(elem)
-    #     if not p:
-    #         # 如果是空表
-    #         self._head = q
-    #         return
+    def insertBeforeIndex(self, i, elem):
+        if i < 0:
+            raise LinkedListUnderflow('in insert before index')
+        # if not self._head:
+        #     self._head = LNode(elem)
+        #     return
+        p = self._head
+        if i == 0:
+            self._head = LNode(elem, self._head)
+            return
 
-    #     if i == 0:
-    #         q.next = p.next
-    #         p = q
-    #         return
+        currentIndex = 0
+        while p:
+            if (currentIndex + 1) == i:
+                p.next = LNode(elem, p.next)
+                return
+            currentIndex += 1
+            p = p.next
 
-    #     while p and i > 0:
-    #         i -= 1
-    #         print p
-    #         p = p.next
-    #     print p
+    def insertAfterIndex(self, i, elem):
+        if i < 0:
+            raise LinkedListUnderflow('in insert after index')
+        if i == 0:
+            self._head = LNode(elem, self._head)
+            return
+        p = self._head
+        currentIndex = 0
+        while p:
+            if currentIndex == i:
+                p.next = LNode(elem, p.next)
+                return
+            p = p.next
+            currentIndex += 1
 
-    #     q.next = p.next
-    #     p.next = q
+    def deleteData(self, data):
+        p = self._head
+        if self._head.elem == data:
+            self._head = self._head.next
+            p.next = None
+            print p.elem
+            return
+        while p.next:
+            if p.next.elem == data:
+                print p.next.elem
+                p.next = p.next.next
+                return
+            p = p.next
 
     def clear(self):
         self._head = None
@@ -104,7 +128,7 @@ if __name__ == '__main__':
     # print llist.pop_last()
 
     llist.append(3)
-    print llist.find(lambda a: a == 3)
+    # print llist.find(lambda a: a == 3)
     llist.pop()
 
     for i in xrange(10):
@@ -113,14 +137,22 @@ if __name__ == '__main__':
         llist.prepend(i)
     # llist.printall()
 
-    for x in llist.elements():
-        print x
+    # for x in llist.elements():
+    #     print x
 
     llist.clear()
 
-    llist.insert(0, 99)
+    llist.insertBeforeIndex(0, 99)
+    # llist.printall()
+
+    llist.insertBeforeIndex(0, 100)
+
+    # llist.printall()
+
+    llist.clear()
+    llist.insertAfterIndex(0, 2)
+    llist.insertAfterIndex(0, 3)
+    llist.insertAfterIndex(1, 4)
     llist.printall()
-
-    llist.insert(1, 100)
-
+    llist.deleteData(3)
     llist.printall()
